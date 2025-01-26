@@ -4,7 +4,7 @@ function Node(data) {
   this.right = null;
 }
 
-function Tree() {
+export function Tree() {
   this.root = null;
 
   this.addNode = function (value) {
@@ -40,21 +40,8 @@ function Tree() {
   this.buildTree = function (array) {
     array.forEach((value) => this.addNode(value));
   };
+
+  this.insert = function (value) {
+    this.addNode(value);
+  };
 }
-
-const prettyPrint = (node, prefix = "", isLeft = true) => {
-  if (node === null) {
-    return;
-  }
-  if (node.right !== null) {
-    prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
-  }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
-  if (node.left !== null) {
-    prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
-  }
-};
-
-const tree = new Tree();
-tree.buildTree([5, 3, 8, 2, 4, 7, 9]);
-prettyPrint(tree.root);
