@@ -158,4 +158,21 @@ export function Tree() {
     }
     return Math.max(this.height(node.left), this.height(node.right)) + 1;
   };
+  this.depth = function (node = this.root) {
+    let depth = 0;
+    let current = this.root;
+
+    while (current !== null) {
+      if (node.data === current.data) {
+        return depth;
+      } else if (node.data < current.data) {
+        current = current.left;
+      } else {
+        current = current.right;
+      }
+      depth++;
+    }
+
+    return -1;
+  };
 }

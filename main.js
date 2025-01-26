@@ -21,3 +21,8 @@ tree.postOrder(printData);
 console.log("Tree height: ", tree.height());
 console.log("Tree height at node 3: ", tree.height(tree.root.left));
 console.log("Tree height at node 9: ", tree.height(tree.root.right));
+
+console.log("Tree depth: ", tree.depth());
+console.log("Tree depth at node 3: ", tree.depth(tree.root.left));
+console.log("Tree depth at node 9: ", tree.depth(tree.root.right));
+console.log("Tree depth at node 6: ", tree.depth(tree.root.right.left.left));
