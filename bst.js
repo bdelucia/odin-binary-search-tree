@@ -95,6 +95,9 @@ export function Tree() {
     return null;
   };
   this.levelOrder = function (callback) {
+    if (!callback) {
+      throw new Error("Callback is required");
+    }
     let queue = [];
     queue.push(this.root);
     while (queue.length > 0) {
