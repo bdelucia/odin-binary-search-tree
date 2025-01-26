@@ -15,3 +15,7 @@ export const printTree = (tree) => {
   prettyPrint(tree.root);
   console.log("-".repeat(30));
 };
+
+export const printData = (node) => {
+  console.log(node.data);
+};

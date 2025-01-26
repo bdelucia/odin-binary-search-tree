@@ -1,4 +1,4 @@
-import { printTree } from "./print.js";
+import { printTree, printData } from "./print.js";
 import { Tree } from "./bst.js";
 
 const tree = new Tree();
@@ -8,3 +8,4 @@ tree.insert(6);
 printTree(tree);
 tree.deleteItem(8);
 printTree(tree);
+tree.levelOrder(printData);
