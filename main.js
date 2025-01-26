@@ -8,4 +8,12 @@ tree.insert(6);
 printTree(tree);
 tree.deleteItem(8);
 printTree(tree);
+
+console.log("Level Order: ");
 tree.levelOrder(printData);
+console.log("In-order: ");
+tree.inOrder(printData);
+console.log("Pre-order: ");
+tree.preOrder(printData);
+console.log("Post-order: ");
+tree.postOrder(printData);
