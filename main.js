@@ -17,3 +17,6 @@ console.log("Pre-order: ");
 tree.preOrder(printData);
 console.log("Post-order: ");
 tree.postOrder(printData);
+
+console.log("Tree depth: ", tree.depth());
+console.log("Tree height: ", tree.height());

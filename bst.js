@@ -152,28 +152,10 @@ export function Tree() {
       }
     }
   };
-  this.height = function () {
-    return heightRec(this.root);
-
-    function heightRec(node) {
-      if (node === null) {
-        return 0;
-      }
-      let leftHeight = heightRec(node.left);
-      let rightHeight = heightRec(node.right);
-      return Math.max(leftHeight, rightHeight) + 1;
+  this.height = function (node = this.root) {
+    if (node === null) {
+      return -1;
     }
-  };
-  this.depth = function () {
-    return depthRec(this.root);
-
-    function depthRec(node) {
-      if (node === null) {
-        return 0;
-      }
-      let leftDepth = depthRec(node.left);
-      let rightDepth = depthRec(node.right);
-      return Math.max(leftDepth, rightDepth) + 1;
-    }
+    return Math.max(this.height(node.left), this.height(node.right)) + 1;
   };
 }
