@@ -111,4 +111,46 @@ export function Tree() {
       }
     }
   };
+  this.inOrder = function (callback) {
+    if (!callback) {
+      throw new Error("Callback is required");
+    }
+    inOrderRec(this.root, callback);
+
+    function inOrderRec(node, callback) {
+      if (node !== null) {
+        inOrderRec(node.left, callback);
+        callback(node);
+        inOrderRec(node.right, callback);
+      }
+    }
+  };
+  this.preOrder = function (callback) {
+    if (!callback) {
+      throw new Error("Callback is required");
+    }
+    preOrderRec(this.root, callback);
+
+    function preOrderRec(node, callback) {
+      if (node !== null) {
+        callback(node);
+        preOrderRec(node.left, callback);
+        preOrderRec(node.right, callback);
+      }
+    }
+  };
+  this.postOrder = function (callback) {
+    if (!callback) {
+      throw new Error("Callback is required");
+    }
+    postOrderRec(this.root, callback);
+
+    function postOrderRec(node, callback) {
+      if (node !== null) {
+        postOrderRec(node.left, callback);
+        postOrderRec(node.right, callback);
+        callback(node);
+      }
+    }
+  };
 }
