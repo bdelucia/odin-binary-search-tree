@@ -18,7 +18,6 @@ export function Tree() {
     let current = this.root;
     while (true) {
       if (value === current.data) {
-        // Value already exists in the tree, do not add it
         return;
       }
       if (value < current.data) {
@@ -151,6 +150,18 @@ export function Tree() {
         postOrderRec(node.right, callback);
         callback(node);
       }
+    }
+  };
+  this.height = function () {
+    return heightRec(this.root);
+
+    function heightRec(node) {
+      if (node === null) {
+        return 0;
+      }
+      let leftHeight = heightRec(node.left);
+      let rightHeight = heightRec(node.right);
+      return Math.max(leftHeight, rightHeight) + 1;
     }
   };
 }
