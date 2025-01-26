@@ -164,4 +164,16 @@ export function Tree() {
       return Math.max(leftHeight, rightHeight) + 1;
     }
   };
+  this.depth = function () {
+    return depthRec(this.root);
+
+    function depthRec(node) {
+      if (node === null) {
+        return 0;
+      }
+      let leftDepth = depthRec(node.left);
+      let rightDepth = depthRec(node.right);
+      return Math.max(leftDepth, rightDepth) + 1;
+    }
+  };
 }
