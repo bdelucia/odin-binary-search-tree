@@ -7,16 +7,20 @@ function Node(data) {
 export function Tree() {
   this.root = null;
 
+  // adds a node to the tree with the given value
   this.addNode = function (value) {
     const newNode = new Node(value);
 
+    // if the tree is empty, the new node becomes the root
     if (!this.root) {
       this.root = newNode;
       return;
     }
 
     let current = this.root;
+    // keep traversing the tree until we find the right spot for the new node
     while (true) {
+      // if the value is already in the tree, do nothing (no duplicates for this implementation)
       if (value === current.data) {
         return;
       }
@@ -44,32 +48,40 @@ export function Tree() {
     this.addNode(value);
   };
 
+  // deletes the node with the given value
   this.deleteItem = function (value) {
     this.root = deleteRec(this.root, value);
 
     function deleteRec(root, value) {
+      // base case
       if (root === null) {
         return root;
       }
 
       if (value < root.data) {
-        root.left = deleteRec(root.left, value);
+        root.left = deleteRec(root.left, value); // traverse left if value is less than the root
       } else if (value > root.data) {
-        root.right = deleteRec(root.right, value);
+        root.right = deleteRec(root.right, value); // traverse right if value is greater than the root
       } else {
+        // node to delete is found!
+        // Case 1: node with no left child
         if (root.left === null) {
-          return root.right;
-        } else if (root.right === null) {
-          return root.left;
+          return root.right; // replace the node with its right child
+        }
+        // Case 2: node with no right child
+        else if (root.right === null) {
+          return root.left; // replace the node with its left child
         }
 
-        root.data = minValue(root.right);
-        root.right = deleteRec(root.right, root.data);
+        // Case 3: node with two children
+        root.data = minValue(root.right); // find smallest value in the right subtree
+        root.right = deleteRec(root.right, root.data); // recursively delete the smallest value from the right subtree
       }
 
       return root;
     }
 
+    // keeps traversing left to find the smallest value
     function minValue(node) {
       let minv = node.data;
       while (node.left !== null) {
@@ -79,6 +91,8 @@ export function Tree() {
       return minv;
     }
   };
+
+  // returns the node with the given value, returns null if a node with value is not found
   this.find = function (value) {
     let current = this.root;
     while (current) {
@@ -93,14 +107,16 @@ export function Tree() {
     }
     return null;
   };
+
+  // applies a given callback function to each node in level order
   this.levelOrder = function (callback) {
     if (!callback) {
       throw new Error("Callback is required");
     }
-    let queue = [];
+    let queue = []; // simulate a queue using an array
     queue.push(this.root);
     while (queue.length > 0) {
-      let current = queue.shift();
+      let current = queue.shift(); // dequeue/pop the first element
       callback(current);
       if (current.left) {
         queue.push(current.left);
@@ -110,6 +126,8 @@ export function Tree() {
       }
     }
   };
+
+  // applies a given callback function to each node in in-order (left, root, right)
   this.inOrder = function (callback) {
     if (!callback) {
       throw new Error("Callback is required");
@@ -118,12 +136,14 @@ export function Tree() {
 
     function inOrderRec(node, callback) {
       if (node !== null) {
-        inOrderRec(node.left, callback);
-        callback(node);
-        inOrderRec(node.right, callback);
+        inOrderRec(node.left, callback); // left
+        callback(node); // root
+        inOrderRec(node.right, callback); // right
       }
     }
   };
+
+  // applies a given callback function to each node in pre-order (root, left, right)
   this.preOrder = function (callback) {
     if (!callback) {
       throw new Error("Callback is required");
@@ -132,12 +152,14 @@ export function Tree() {
 
     function preOrderRec(node, callback) {
       if (node !== null) {
-        callback(node);
-        preOrderRec(node.left, callback);
-        preOrderRec(node.right, callback);
+        callback(node); // root
+        preOrderRec(node.left, callback); // left
+        preOrderRec(node.right, callback); // right
       }
     }
   };
+
+  // applies a given callback function to each node in post-order (left, right, root)
   this.postOrder = function (callback) {
     if (!callback) {
       throw new Error("Callback is required");
@@ -146,19 +168,27 @@ export function Tree() {
 
     function postOrderRec(node, callback) {
       if (node !== null) {
-        postOrderRec(node.left, callback);
-        postOrderRec(node.right, callback);
-        callback(node);
+        postOrderRec(node.left, callback); // left
+        postOrderRec(node.right, callback); // right
+        callback(node); // root
       }
     }
   };
+
+  // returns the number of edges between the root and the farthest leaf node
   this.height = function (node = this.root) {
+    // base case
     if (node === null) {
       return -1;
     }
+
+    // recursion case, as we go down the tree, we add 1 to the height.
+    // if the left subtree is taller than the right subtree, we return the height of the left subtree + 1
     return Math.max(this.height(node.left), this.height(node.right)) + 1;
   };
-  this.depth = function (node = this.root) {
+
+  // returns the number of edges between the root and the node, returns -1 if the node is not found
+  this.depth = function (node) {
     let depth = 0;
     let current = this.root;
 
@@ -166,38 +196,45 @@ export function Tree() {
       if (node.data === current.data) {
         return depth;
       } else if (node.data < current.data) {
-        current = current.left;
+        current = current.left; // go left to try and find the node with the value passed in as an argument
       } else {
         current = current.right;
       }
-      depth++;
+      depth++; // increment the depth as we traverse the tree
     }
 
     return -1;
   };
+
+  // returns -1 if the tree is unbalanced, 0 if balanced
   this.isBalanced = function () {
     function checkHeight(node) {
+      // base case
       if (node === null) {
         return 0;
       }
 
+      // recursive cases
       let leftHeight = checkHeight(node.left);
       if (leftHeight === -1) return -1;
 
       let rightHeight = checkHeight(node.right);
       if (rightHeight === -1) return -1;
 
+      // if the total height of the left subtrees and right subtrees differ by more than 1, the tree is unbalanced
       if (Math.abs(leftHeight - rightHeight) > 1) {
         return -1;
       }
 
-      return Math.max(leftHeight, rightHeight) + 1;
+      return Math.max(leftHeight, rightHeight) + 1; // get the tallest subtree and plus 1 to include the root
     }
 
     return checkHeight(this.root) !== -1;
   };
+
+  // rebalances the tree
   this.rebalance = function () {
-    // collects nodes values in sorted order
+    // populate an array with the nodes in in-order traversal (sorted)
     function inOrderTraversal(node, nodes) {
       if (node === null) {
         return;
@@ -220,7 +257,7 @@ export function Tree() {
     }
 
     const nodes = [];
-    inOrderTraversal(this.root, nodes);
+    inOrderTraversal(this.root, nodes); // fills the nodes array
     this.root = buildBalancedTree(nodes, 0, nodes.length - 1);
   };
 }
