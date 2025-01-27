@@ -175,4 +175,52 @@ export function Tree() {
 
     return -1;
   };
+  this.isBalanced = function () {
+    function checkHeight(node) {
+      if (node === null) {
+        return 0;
+      }
+
+      let leftHeight = checkHeight(node.left);
+      if (leftHeight === -1) return -1;
+
+      let rightHeight = checkHeight(node.right);
+      if (rightHeight === -1) return -1;
+
+      if (Math.abs(leftHeight - rightHeight) > 1) {
+        return -1;
+      }
+
+      return Math.max(leftHeight, rightHeight) + 1;
+    }
+
+    return checkHeight(this.root) !== -1;
+  };
+  this.rebalance = function () {
+    // collects nodes values in sorted order
+    function inOrderTraversal(node, nodes) {
+      if (node === null) {
+        return;
+      }
+      inOrderTraversal(node.left, nodes);
+      nodes.push(node.data);
+      inOrderTraversal(node.right, nodes);
+    }
+
+    function buildBalancedTree(nodes, start, end) {
+      // base case
+      if (start > end) {
+        return null;
+      }
+      const mid = Math.floor((start + end) / 2); // root
+      const node = new Node(nodes[mid]); // makes new node from (sorted) nodes array
+      node.left = buildBalancedTree(nodes, start, mid - 1); // builds the left subtree by using the left 'side' of the nodes array
+      node.right = buildBalancedTree(nodes, mid + 1, end); // builds the right subtree by using the right 'side' of the nodes array
+      return node;
+    }
+
+    const nodes = [];
+    inOrderTraversal(this.root, nodes);
+    this.root = buildBalancedTree(nodes, 0, nodes.length - 1);
+  };
 }

@@ -26,3 +26,9 @@ console.log("Tree depth: ", tree.depth());
 console.log("Tree depth at node 3: ", tree.depth(tree.root.left));
 console.log("Tree depth at node 9: ", tree.depth(tree.root.right));
 console.log("Tree depth at node 6: ", tree.depth(tree.root.right.left.left));
+
+printTree(tree);
+console.log("Tree is balanced: ", tree.isBalanced());
+tree.rebalance();
+printTree(tree);
+console.log("Tree is balanced: ", tree.isBalanced());
